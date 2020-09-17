@@ -9,6 +9,7 @@ var engcorp=[["John ate an apple before afternoon","before afternoon John ate an
             ["the teacher returned the book after she noticed the error","the teacher noticed the error after she returned the book","after the teacher returned the book she noticed the error","after the teacher noticed the error she returned the book","she returned the book after the teacher noticed the error","she noticed the error after the teacher returned the book","after she returned the book the teacher noticed the error","after she noticed the error the teacher returned the book"],
             ["I told her that I bought a book yesterday","I told her yesterday that I bought a book","yesterday I told her that I bought a book","I bought a book that I told her yesterday","I bought a book yesterday that I told her","yesterday I bought a book that I told her"]
         ];
+
 var hincorp=[["राम और श्याम बाजार गयें","राम और श्याम गयें बाजार","बाजार गयें राम और श्याम","गयें बाजार राम और श्याम"],
             ["राम सोया और श्याम भी","श्याम सोया और राम भी","सोया श्याम और राम भी","सोया राम और श्याम भी"],
             ["मैंने उसे बताया कि राम सो रहा है","मैंने उसे बताया कि सो रहा है राम","उसे मैंने बताया कि राम सो रहा है","उसे मैंने बताया कि सो रहा है राम","मैंने बताया उसे कि राम सो रहा है","मैंने बताया उसे कि सो रहा है राम","उसे बताया मैंने कि राम सो रहा है","उसे बताया मैंने कि सो रहा है राम","बताया मैंने उसे कि राम सो रहा है","बताया मैंने उसे कि सो रहा है राम","बताया उसे मैंने कि राम सो रहा है","बताया उसे मैंने कि सो रहा है राम"],
@@ -27,8 +28,6 @@ function language(){
     else{
         corpus=hincorp;
     }
-division=document.getElementById("w_buttons");
-    division.innerHTML="";
     if(document.getElementById("lang").value=="english"){
         corpus=engcorp;
     }
@@ -39,20 +38,46 @@ division=document.getElementById("w_buttons");
     sentence=corpus[index][0];
     words=sentence.split(" ");
     console.log(words);
+ reform(words);
+}
+function reform(words){
+    division=document.getElementById("w_buttons");
+    division.innerHTML="";
+
     for(i=0;i<words.length;i++){
         ind=Math.floor(Math.random()*words.length);
         temp=words[ind];
         words[ind]=words[i];
         words[i]=temp;
     }
-    but=[]
+      but=[];
+    sentence="";
+
+    two_buttons=document.getElementById("c_buttons");
+    two_buttons.innerHTML="";
+
+    reform_button=document.createElement("input");
+    reform_button.type="button";
+    reform_button.value="Reform the sentence";
+    reform_button.style.display="inline";
+    document.getElementById("demo").innerHTML=sentence;
+
     for(i=0;i<words.length;i++){
         but[i]=document.createElement("input");
         but[i].type="button";
         but[i].value=words[i];
         but[i].style.display="inline";
         but[i].style.margin="0px 5px";
+         but[i].onclick=function(){
+            sentence+=this.value+" ";
+            document.getElementById("demo").innerHTML=sentence;
+            this.style.display="none";
+            two_buttons.appendChild(reform_button);
+            reform_button.onclick=function(){
+                reform(words);
+            };
+        };
+
         division.appendChild(but[i]);
     }
-    console.log(but);
 }
